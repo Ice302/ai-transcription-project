@@ -1,0 +1,16 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets and runtime data
+backend/.env
+backend/data/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Downloaded models (speaker diarization)
+backend/models/

@@ -1,0 +1,10 @@
+# Windows batch files must keep CRLF line endings (cmd mis-reads labels with LF),
+# shell scripts must keep LF (sh fails on CRLF), whatever the cloning machine uses.
+* text=auto
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+*.mp4 binary
+*.jpg binary
+*.png binary
+*.onnx binary

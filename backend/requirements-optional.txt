@@ -1,0 +1,9 @@
+# Fallback engine (pulls in PyTorch, ~2 GB). Only needed if faster-whisper cannot run.
+openai-whisper
+
+# NVIDIA GPU acceleration for faster-whisper on Windows/Linux (CUDA 12 runtime libraries).
+nvidia-cublas-cu12
+nvidia-cudnn-cu12==9.*
+
+# Tests
+pytest

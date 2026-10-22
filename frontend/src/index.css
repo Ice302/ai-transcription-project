@@ -1,0 +1,262 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Dark mode follows the data-theme attribute on <html> (set from the system or the toggle). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------------------------------
+   Design tokens. Palette: paper + ink (editorial), lime (flat "TODU" reference), signal
+   red-orange (collage reference) and six muted pastels for scenes/speakers (calendar reference).
+   ------------------------------------------------------------------------------------------ */
+:root {
+  --tt-paper: #ecebe4;
+  --tt-paper-2: #e2e0d6;
+  --tt-surface: #f7f6f1;
+  --tt-surface-2: #ffffff;
+  --tt-ink: #131312;
+  --tt-ink-2: #45443e;
+  --tt-ink-3: #85827a;
+  --tt-line: #d3d0c4;
+  --tt-line-2: #c2beb0;
+  --tt-on-ink: #f4f3ee;
+
+  --tt-lime: #bcdb6b;
+  --tt-lime-strong: #a3c84d;
+  --tt-lime-pale: #e5efcb;
+  --tt-signal: #e1462b;
+  --tt-signal-pale: #f5d6cc;
+
+  --tt-p1: #e6bc6e; --tt-p1-ink: #4f360c;
+  --tt-p2: #b0babb; --tt-p2-ink: #263235;
+  --tt-p3: #bdb3d4; --tt-p3-ink: #33295a;
+  --tt-p4: #d6a5ad; --tt-p4-ink: #55202d;
+  --tt-p5: #9bcdc6; --tt-p5-ink: #18443f;
+  --tt-p6: #cacd9f; --tt-p6-ink: #3a3e18;
+
+  --tt-grain-opacity: 0.45;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --tt-paper: #0f0f0e;
+  --tt-paper-2: #161614;
+  --tt-surface: #1b1b19;
+  --tt-surface-2: #232320;
+  --tt-ink: #f1efe8;
+  --tt-ink-2: #bdbab0;
+  --tt-ink-3: #7d7a70;
+  --tt-line: #2f2e2a;
+  --tt-line-2: #3d3c37;
+  --tt-on-ink: #131312;
+
+  --tt-lime-pale: #283015;
+  --tt-signal: #ff6646;
+  --tt-signal-pale: #3a1a12;
+
+  --tt-grain-opacity: 0.18;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--tt-paper);
+  --color-paper-2: var(--tt-paper-2);
+  --color-surface: var(--tt-surface);
+  --color-surface-2: var(--tt-surface-2);
+  --color-ink: var(--tt-ink);
+  --color-ink-2: var(--tt-ink-2);
+  --color-ink-3: var(--tt-ink-3);
+  --color-line: var(--tt-line);
+  --color-line-2: var(--tt-line-2);
+  --color-on-ink: var(--tt-on-ink);
+  --color-lime: var(--tt-lime);
+  --color-lime-strong: var(--tt-lime-strong);
+  --color-lime-pale: var(--tt-lime-pale);
+  --color-signal: var(--tt-signal);
+  --color-signal-pale: var(--tt-signal-pale);
+  --color-p1: var(--tt-p1); --color-p1-ink: var(--tt-p1-ink);
+  --color-p2: var(--tt-p2); --color-p2-ink: var(--tt-p2-ink);
+  --color-p3: var(--tt-p3); --color-p3-ink: var(--tt-p3-ink);
+  --color-p4: var(--tt-p4); --color-p4-ink: var(--tt-p4-ink);
+  --color-p5: var(--tt-p5); --color-p5-ink: var(--tt-p5-ink);
+  --color-p6: var(--tt-p6); --color-p6-ink: var(--tt-p6-ink);
+
+  --font-sans: "Geist Variable", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --radius-card: 1.75rem;
+  --radius-tile: 1.25rem;
+}
+
+/* Before the theme script runs, follow the system so dark users never see a light flash. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    background: #0f0f0e;
+  }
+}
+
+@layer base {
+  html {
+    background: var(--tt-paper);
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+    min-height: 100vh;
+  }
+  /* Paper grain (editorial reference): fixed, non-interactive, very subtle. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--tt-grain-opacity);
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.43 0 0 0 0 0.38 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+  [data-theme="dark"] body::before {
+    mix-blend-mode: screen;
+  }
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+  ::selection {
+    background: var(--tt-lime);
+    color: #131312;
+  }
+  :focus-visible {
+    outline: 2px solid var(--tt-ink);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  select {
+    color: inherit;
+  }
+  input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-card bg-surface border border-line;
+  }
+  .tile {
+    @apply rounded-tile;
+  }
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3;
+  }
+  .serif-accent {
+    @apply font-serif italic font-normal tracking-normal;
+  }
+  .display {
+    @apply font-sans font-semibold tracking-[-0.045em] leading-[0.9];
+  }
+  .field {
+    @apply w-full rounded-2xl border border-line bg-surface-2 px-4 py-2.5 text-sm text-ink placeholder:text-ink-3
+      outline-none transition focus:border-ink;
+  }
+  .dot-grid {
+    background-image: radial-gradient(circle, var(--tt-line-2) 1px, transparent 1.2px);
+    background-size: 14px 14px;
+  }
+  .hairline-grid {
+    background-image: linear-gradient(var(--tt-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--tt-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--tt-line-2) transparent;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Low-confidence words: dotted underline; suggested fixes: wavy signal underline. */
+.word-uncertain {
+  text-decoration: underline dotted var(--tt-ink-3);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.word-suspect {
+  text-decoration: underline wavy var(--tt-signal);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+@keyframes tt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: tt-rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes tt-caret {
+  50% {
+    opacity: 0;
+  }
+}
+.stream-caret::after {
+  content: "▍";
+  margin-left: 1px;
+  animation: tt-caret 1s steps(1) infinite;
+  color: var(--tt-lime);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print / "Save as PDF": only the notes document is printed. */
+.print-only {
+  display: none;
+}
+@media print {
+  body::before,
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
